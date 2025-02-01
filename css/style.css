@@ -1,5 +1,11 @@
+/* import font */
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/poppins/Poppins-Regular.ttf');
+}
+
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: "Poppins", sans-serif;
   background-color: #f8fafb; }
 
 p {
@@ -199,3 +205,13 @@ h2 {
 .control--checkbox input:disabled:checked ~ .control__indicator {
   background-color: #7e0cf5;
   opacity: .2; }
+
+.page-log{
+  margin-top : 180px !important;
+  text-align: center;
+}
+
+.icon-check-i{
+  font-size: 180px;
+  color: green;
+}

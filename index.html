@@ -5,19 +5,38 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="Mikrotik" />
+  <meta name="keywords" content="Mikrotik" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="stylesheet" href="fonts/icomoon/style.css">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <!-- Style -->
   <link rel="stylesheet" href="css/style.css">
 
-  <title>Login Mikrotik</title>
+  <title>Mikrotik > Login</title>
 </head>
 
 <body>
-
-
+  $(if chap-id)
+    <form name="sendin" action="$(link-login-only)" method="post">
+      <input type="hidden" name="username" />
+      <input type="hidden" name="password" />
+      <input type="hidden" name="dst" value="$(link-orig)" />
+      <input type="hidden" name="popup" value="true" />
+    </form>
+    
+    <script type="text/javascript" src="/md5.js"></script>
+    <script type="text/javascript">
+          function doLogin() {
+          document.sendin.username.value = document.login.username.value;
+          document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
+          document.sendin.submit();
+          return false;
+          }
+    </script>
+  $(endif)
 
   <div class="content">
     <div class="container">
@@ -31,29 +50,31 @@
               <div class="mb-4">
                 <h3>Sign In</h3>
                 <p class="mb-4">Masukan username dan password untuk terhubung ke internet</p>
-
+                $(if error)
                 <div class="alert alert-danger bg-danger">
-                  
+                  $(error)
                 </div>
+                $(endif)
               </div>
-              <form action="#" method="post">
+              <form id="loginForm" name="login" action="$(link-login-only)" method="post" 
+              $(if chap-id) onSubmit="return doLogin()" $(endif)>
+                <input type="hidden" name="dst" value="$(link-orig)" />
+                <input type="hidden" name="popup" value="true" />
                 <div class="form-group first">
                   <label for="username">Username</label>
                   <input type="text" name="username" class="form-control" id="username" required>
-
                 </div>
                 <div class="form-group last mb-4">
                   <label for="password">Password</label>
                   <input type="password" name="password" class="form-control" id="password" required>
                 </div>
-
-                <input type="submit" value="Log In" class="btn btn-block btn-primary">
+                <button type="submit" class="btn btn-block btn-primary">
+                  <em class="icon icon-sign-in"></em> Log In  
+                </button>
               </form>
             </div>
           </div>
-
         </div>
-
       </div>
     </div>
   </div>
@@ -63,6 +84,22 @@
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/main.js"></script>
+
+  $(if chap-id)
+  <script src="md5.js"></script>
+  <script>
+    $('#loginForm').submit(function(){
+      let password = $('#password');
+      password.val(
+          hexMD5("$(chap-id)" + password.val() + "$(chap-challenge)")
+      );
+    });
+  </script>
+  $(endif)
+
+  <script type="text/javascript">
+    document.login.username.focus();
+  </script>
 </body>
 
 </html>
